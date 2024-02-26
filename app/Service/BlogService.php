@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-use App\Http\Controllers\Admin\BlogController;
 use App\Models\Blog;
 
 // morphMany
@@ -13,12 +12,12 @@ class BlogService{
         $this->commentService =new CommentService();
     }
     // POST
-    public function addService($data){
+    public function addService($request){
         $blog=Blog::create([
-            'title'=>$data['title'],
-            'slug'=>$data['slug']
+            'title'=>$request['title'],
+            'slug'=>$request['slug']
         ]);
-        $this->commentService->addService($blog,$data['comments']);
+        $this->commentService->addService($blog,$request['comments']);
     }
     // GET all
     public function fetchBlogs(){
@@ -37,13 +36,13 @@ class BlogService{
       return $blog;
     }
     // UPDATE
-    public function updateService($data,$blog){
+    public function updateService($request,$blog){
        $blog->update([
-        'title'=>$data['title'],
-        'slug'=>$data['slug']
+        'title'=>$request['title'],
+        'slug'=>$request['slug']
        ]);
-       if(!empty($data['comments'])){
-        $this->commentService->updateComment($blog,$data['comments']);
+       if(!empty($request['comments'])){
+        $this->commentService->updateComment($blog,$request['comments']);
        }
     }
 }
